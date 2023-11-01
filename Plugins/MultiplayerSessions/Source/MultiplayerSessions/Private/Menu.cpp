@@ -75,7 +75,7 @@ void UMenu::OnCreateSession(bool bWasSuccessful)
 				-1,
 				15.f,
 				FColor::Yellow,
-				FString(TEXT("Session created successfully"))
+				FString::Printf(TEXT("Session created successfully"))
 			);
 		}
 
@@ -91,7 +91,7 @@ void UMenu::OnCreateSession(bool bWasSuccessful)
 				-1,
 				15.f,
 				FColor::Red,
-				FString(TEXT("Failed to create session"))
+				TEXT("Failed to create session")
 			);
 		}
 		HostButton->SetIsEnabled(true);
@@ -103,6 +103,24 @@ void UMenu::OnFindSessions(const TArray<FOnlineSessionSearchResult>& SessionResu
 	if (!MultiplayerSessionsSubsystem)
 	{
 		return;
+	}
+
+	if (GEngine) {
+		GEngine->AddOnScreenDebugMessage(
+			-1,
+			15.f,
+			FColor::Yellow,
+			FString::Printf(TEXT("Find complete with %s results."), *FString::FromInt(SessionResults.Num()))
+		);
+	}
+
+	if (GEngine && !bWasSuccessful) {
+		GEngine->AddOnScreenDebugMessage(
+			-1,
+			15.f,
+			FColor::Red,
+			FString(TEXT("Failed to find result."))
+		);
 	}
 
 	for (auto Result : SessionResults) {
