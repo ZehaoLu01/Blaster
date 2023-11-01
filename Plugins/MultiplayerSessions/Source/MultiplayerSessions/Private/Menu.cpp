@@ -219,9 +219,11 @@ void UMenu::MenuTearDown()
 	if (World) {
 		APlayerController* PlayerController = World->GetFirstPlayerController();
 
-		// We used to set input mode to FInputModeUIOnly. This will cause not able to move character.
-		FInputModeGameOnly InputData;
-		PlayerController->SetInputMode(InputData);
-		PlayerController->SetShowMouseCursor(false);
+		if (PlayerController) {
+			// We used to set input mode to FInputModeUIOnly. This will cause not able to move character.
+			FInputModeGameOnly InputData;
+			PlayerController->SetInputMode(InputData);
+			PlayerController->SetShowMouseCursor(false);
+		}
 	}
 }
