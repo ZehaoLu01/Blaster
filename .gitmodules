@@ -1,0 +1,3 @@
+[submodule "Plugins/UE5OnlinePlugin"]
+	path = Plugins/UE5OnlinePlugin
+	url = https://github.com/ZehaoLu01/UE5OnlinePlugin.git
