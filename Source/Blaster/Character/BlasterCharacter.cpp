@@ -35,6 +35,8 @@ ABlasterCharacter::ABlasterCharacter()
 	Combat = CreateDefaultSubobject<UCombatComponent>(TEXT("CombatComponent"));
 	// Components are not required to be registered in GetLifetimeReplicatedProps.
 	Combat->SetIsReplicated(true);
+
+	GetCharacterMovement()->NavAgentProps.bCanCrouch = true;
 }
  
 // Called when the game starts or when spawned
@@ -57,6 +59,8 @@ void ABlasterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAxis("LookUp", this, &ThisClass::LookUp);
 
 	PlayerInputComponent->BindAction("Equip", IE_Pressed, this, &ABlasterCharacter::EquipButtonPressed);
+	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &ABlasterCharacter::ChrouchButtonPressed);
+
 }
 
 void ABlasterCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -111,6 +115,18 @@ void ABlasterCharacter::EquipButtonPressed()
 		else {
 			ServerEquipButtonPressed();
 		}
+	}
+}
+
+void ABlasterCharacter::ChrouchButtonPressed()
+{
+	// Crouch function has already been implemented throughly in Character and Character Movement Component.
+	// It has already handled the replication.
+	if (bIsCrouched) {
+		UnCrouch();
+	}
+	else {
+		Crouch();
 	}
 }
 
