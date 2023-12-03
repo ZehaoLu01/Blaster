@@ -5,6 +5,7 @@
 #include "Blaster/Weapon/Weapon.h"
 #include "Blaster/Character/BlasterCharacter.h"
 #include "Engine/SkeletalMeshSocket.h"
+#include "Components/SphereComponent.h"
 
 // Sets default values for this component's properties
 UCombatComponent::UCombatComponent()
@@ -26,11 +27,12 @@ void UCombatComponent::EquipWeapon(AWeapon* WeaponToEquip)
 	const USkeletalMeshSocket* HandSocket = Character->GetMesh()->GetSocketByName(FName("RightHandSocket"));
 	
 	if (HandSocket) {
+		// This already replicates to the client
 		HandSocket->AttachActor(EquippedWeapon, Character->GetMesh());
 	}
 
+	// Owner is replicated by default.
 	EquippedWeapon->SetOwner(Character);
-	EquippedWeapon->ShowpickupWidget(false);
 }
 
 // Called when the game starts
