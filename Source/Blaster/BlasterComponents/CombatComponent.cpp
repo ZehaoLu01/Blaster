@@ -41,6 +41,7 @@ void UCombatComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	
 	DOREPLIFETIME(ThisClass, EquippedWeapon);
+	DOREPLIFETIME(ThisClass, bAiming);
 }
 
 // Called when the game starts
@@ -50,6 +51,21 @@ void UCombatComponent::BeginPlay()
 
 	// ...
 	
+}
+
+void UCombatComponent::SetAiming(bool bIsAiming)
+{
+	// We set it locally because we don't want to wait RPC being called on this machine.
+	// Setting it locally will reduce latency.
+	bAiming = bIsAiming;
+	ServerSetAiming(bIsAiming);
+
+}
+
+// Guarantee the server will set aiming.
+void UCombatComponent::ServerSetAiming_Implementation(bool bIsAiming)
+{
+	bAiming = bIsAiming;
 }
 
 
