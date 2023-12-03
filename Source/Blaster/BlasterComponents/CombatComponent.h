@@ -21,11 +21,14 @@ public:
 	friend class ABlasterCharacter;
 
 	void EquipWeapon(AWeapon* WeaponToEquip);
+
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
 private:
+	UPROPERTY(Replicated)
 	AWeapon* EquippedWeapon;
 	ABlasterCharacter* Character;
 public:	
